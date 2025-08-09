@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),          # your HTML site
-    path('api/', include('core.api_urls')),  # new JSON API
+    # path('api/', include('core.api_urls')),  # new JSON API
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 

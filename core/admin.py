@@ -7,6 +7,6 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'topic', 'source_name', 'published_at')
+    list_display = ('title', 'topic', 'source_name', 'published_at', 'image_url')
     list_filter = ('topic', 'published_at', 'source_name')
-    search_fields = ('title', 'summary', 'source_name')
+    search_fields = ('title', 'summary', 'source_name', 'image_url')

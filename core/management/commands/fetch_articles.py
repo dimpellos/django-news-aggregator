@@ -40,13 +40,23 @@ class Command(BaseCommand):
                 if published_at and is_naive(published_at):
                     published_at = make_aware(published_at)
 
+                source_name = ""
+                src = article_data.get('source')
+                if isinstance(src, dict):
+                    source_name = src.get('name') or ""
+
+                # Extract image URL
+                image_url = article_data.get('urlToImage') or ""
+
                 article, created = Article.objects.get_or_create(
                     url=article_data['url'],
                     defaults={
                         'topic': topic,
-                        'title': article_data['title'][:255],
-                        'summary': article_data.get('description', ''),
-                        'published_at': published_at
+                        'title': (article_data.get('title') or '')[:255],
+                        'summary': article_data.get('description') or '',
+                        'published_at': published_at,
+                        'source_name': source_name,
+                        'image_url': image_url,  # ← make sure this is here
                     }
                 )
 

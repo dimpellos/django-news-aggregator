@@ -17,6 +17,15 @@
              value="{{ request.GET.q|default:'' }}">
       <button class="btn btn-outline-light" type="submit">Search</button>
     </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">News Aggregator</a>
+        <form class="d-flex" method="get" action="{% url 'home' %}">
+          ...
+        </form>
+        <!-- INSERT THE BLOCK BELOW RIGHT HERE, AFTER THE FORM -->
+      </div>
+    </nav>    
   </div>
 </nav>
 
@@ -26,8 +35,9 @@
       <div class="d-flex flex-wrap gap-2">
         <a class="btn btn-sm btn-outline-secondary" href="{% url 'home' %}">All topics</a>
         {% for t in topics %}
-          <a class="btn btn-sm {% if t.id == topic.id %}btn-primary{% else %}btn-outline-primary{% endif %}"
-             href="{% url 'topic-detail' t.slug %}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
+          {% url 'topic-detail' t.slug as t_url %}
+          <a class="btn btn-sm {% if request.path == t_url %}btn-primary{% else %}btn-outline-primary{% endif %}"
+             href="{{ t_url }}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
              {{ t.name }}
           </a>
         {% endfor %}
@@ -38,10 +48,16 @@
   <h1 class="h4 mb-3">{{ topic.name }}</h1>
 
   {% if articles %}
+    {% with placeholder='https://via.placeholder.com/600x320?text=No+Image' %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
       {% for a in articles %}
       <div class="col">
         <div class="card h-100 shadow-sm">
+          {% if a.image_url %}
+            <img src="{{ a.image_url }}" class="card-img-top" alt="{{ a.title }}">
+          {% else %}
+            <img src="{{ placeholder }}" class="card-img-top" alt="No image">
+          {% endif %}
           <div class="card-body">
             <h5 class="card-title">
               <a href="{{ a.url }}" class="link-dark text-decoration-none" target="_blank" rel="noopener">
@@ -51,16 +67,14 @@
             <p class="card-text">{{ a.summary|default:"No summary available." }}</p>
           </div>
           <div class="card-footer small text-muted d-flex justify-content-between">
-            <span>
-              {{ a.topic.name }}{% if a.source_name %} · {{ a.source_name }}{% endif %}
-            </span>
+            <span>{{ a.topic.name }}{% if a.source_name %} · {{ a.source_name }}{% endif %}</span>
             <span title="{{ a.published_at }}">{{ a.published_at|naturaltime }}</span>
           </div>
-          
         </div>
       </div>
       {% endfor %}
     </div>
+    {% endwith %}
 
     {% if articles.paginator.num_pages > 1 %}
     <nav class="mt-4">

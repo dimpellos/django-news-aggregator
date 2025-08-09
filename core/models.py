@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.conf import settings
 
 class Topic(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -20,7 +21,8 @@ class Article(models.Model):
     url = models.URLField(unique=True)  # enforce no duplicates across topics
     summary = models.TextField(blank=True)
     published_at = models.DateTimeField()
-    source_name = models.CharField(max_length=255, blank=True)
+    source_name = models.CharField(max_length=255, blank=True, default="")
+    image_url = models.URLField(blank=True, null=True, default="") 
 
     def __str__(self):
         return self.title
@@ -29,3 +31,13 @@ class Article(models.Model):
         indexes = [
             models.Index(fields=['-published_at']),
         ]
+class Subscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "topic")
+
+    def __str__(self):
+        return f"{self.user} → {self.topic}"
