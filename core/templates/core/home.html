@@ -28,16 +28,19 @@
   <div class="row mb-3">
     <div class="col">
       <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-sm {% if not request.GET.topic %}btn-primary{% else %}btn-outline-primary{% endif %}"
-           href="{% url 'home' %}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
-           All topics
+        <a class="btn btn-sm {% if request.resolver_match.url_name == 'home' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+            href="{% url 'home' %}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
+            All topics
         </a>
+     
         {% for t in topics %}
-          <a class="btn btn-sm {% if request.GET.topic == t.id|stringformat:'s' %}btn-primary{% else %}btn-outline-primary{% endif %}"
-             href="{% url 'home' %}?topic={{ t.id }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
-             {{ t.name }}
-          </a>
+            {% url 'topic-detail' t.slug as t_url %}
+            <a class="btn btn-sm {% if request.path == t_url %}btn-primary{% else %}btn-outline-primary{% endif %}"
+                href="{{ t_url }}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}">
+                {{ t.name }}
+            </a>
         {% endfor %}
+     
       </div>
     </div>
   </div>
