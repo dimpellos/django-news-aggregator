@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0007_article_image_url'),
+        ("core", "0007_article_image_url"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='article',
-            name='image_url',
-            field=models.URLField(blank=True, default='', null=True),
+            model_name="article",
+            name="image_url",
+            field=models.URLField(blank=True, default="", null=True),
         ),
         migrations.AlterField(
-            model_name='article',
-            name='source_name',
-            field=models.CharField(blank=True, default='', max_length=255),
+            model_name="article",
+            name="source_name",
+            field=models.CharField(blank=True, default="", max_length=255),
         ),
     ]

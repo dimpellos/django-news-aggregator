@@ -1,13 +1,16 @@
+from django.db.models import Q
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from django.db.models import Q
-from .models import Topic, Article
-from .serializers import TopicSerializer, ArticleSerializer
+
+from .models import Article, Topic
+from .serializers import ArticleSerializer, TopicSerializer
+
 
 class TopicListView(ListAPIView):
     queryset = Topic.objects.all().order_by("name")
     serializer_class = TopicSerializer
+
 
 class ArticleListView(ListAPIView):
     serializer_class = ArticleSerializer
@@ -21,6 +24,7 @@ class ArticleListView(ListAPIView):
         if q:
             qs = qs.filter(Q(title__icontains=q) | Q(summary__icontains=q))
         return qs
+
 
 @api_view(["GET"])
 def health(request):

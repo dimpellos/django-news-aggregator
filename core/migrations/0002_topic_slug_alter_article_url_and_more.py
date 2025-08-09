@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='topic',
-            name='slug',
+            model_name="topic",
+            name="slug",
             field=models.SlugField(blank=True, max_length=120),
         ),
         migrations.AlterField(
-            model_name='article',
-            name='url',
+            model_name="article",
+            name="url",
             field=models.URLField(unique=True),
         ),
         migrations.AddIndex(
-            model_name='article',
-            index=models.Index(fields=['-published_at'], name='core_articl_publish_89e81b_idx'),
+            model_name="article",
+            index=models.Index(fields=["-published_at"], name="core_articl_publish_89e81b_idx"),
         ),
     ]

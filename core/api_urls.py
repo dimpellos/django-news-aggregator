@@ -1,5 +1,6 @@
 from django.urls import path
-from .api_views import TopicListView, ArticleListView, health
+
+from .api_views import ArticleListView, TopicListView, health
 
 urlpatterns = [
     path("health/", health),

@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views, views_auth
-from . import views_subscriptions
+
+from . import views, views_auth, views_subscriptions
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -9,8 +9,14 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path("topic/<slug:slug>/follow/", views_subscriptions.follow_topic, name="follow-topic"),
-    path("topic/<slug:slug>/unfollow/", views_subscriptions.unfollow_topic, name="unfollow-topic"),
+    path(
+        "topic/<slug:slug>/follow/",
+        views_subscriptions.follow_topic,
+        name="follow-topic",
+    ),
+    path(
+        "topic/<slug:slug>/unfollow/",
+        views_subscriptions.unfollow_topic,
+        name="unfollow-topic",
+    ),
 ]
-
-
