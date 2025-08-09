@@ -51,9 +51,12 @@
             <p class="card-text">{{ a.summary|default:"No summary available." }}</p>
           </div>
           <div class="card-footer small text-muted d-flex justify-content-between">
-            <span>{{ a.topic.name }}</span>
+            <span>
+              {{ a.topic.name }}{% if a.source_name %} · {{ a.source_name }}{% endif %}
+            </span>
             <span title="{{ a.published_at }}">{{ a.published_at|naturaltime }}</span>
           </div>
+          
         </div>
       </div>
       {% endfor %}

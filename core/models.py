@@ -20,6 +20,7 @@ class Article(models.Model):
     url = models.URLField(unique=True)  # enforce no duplicates across topics
     summary = models.TextField(blank=True)
     published_at = models.DateTimeField()
+    source_name = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.title
